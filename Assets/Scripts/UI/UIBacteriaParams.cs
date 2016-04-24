@@ -20,13 +20,26 @@ public class UIBacteriaParams : MonoBehaviour {
 
     public void reset()
     {
-        radiationResist = 999f;
-        temperatureResist = -20f;
-        maxSize = 1f;
-        photosynthesisPower = 1f;
-        nitrogenPower = 0.25f;
-        divisionSpeed = 6f;
-        waterUsage = 0.5f;
+        if (controller.ParamsController.colonyParams == null)
+        {
+            radiationResist = 999f;
+            temperatureResist = -20f;
+            maxSize = 1f;
+            photosynthesisPower = 1f;
+            nitrogenPower = 0.25f;
+            divisionSpeed = 6f;
+            waterUsage = 0.5f;
+        }
+        else
+        {
+            radiationResist = (controller.ParamsController.colonyParams.radiationResistent - 0.98f) * 100000;
+            temperatureResist = controller.ParamsController.colonyParams.optimalTemperature;
+            photosynthesisPower = controller.ParamsController.colonyParams.photosynthesisPower * 100;
+            nitrogenPower = controller.ParamsController.colonyParams.nFixPower * 100;
+            maxSize = controller.ParamsController.colonyParams.cellSize;
+            divisionSpeed = controller.ParamsController.growthSpeed;
+        }
+        
         InvokeValueChanged();
     }
 	

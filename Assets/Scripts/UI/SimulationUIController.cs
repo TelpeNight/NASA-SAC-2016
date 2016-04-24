@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 
 public class SimulationUIController : MonoBehaviour
@@ -227,5 +228,10 @@ public class SimulationUIController : MonoBehaviour
     private double GetOrganic()
     {
         return _simulationController.getConditions().GetOrganic();
+    }
+
+    public void OnStopSimulation()
+    {
+        SceneManager.LoadScene("editor");
     }
 }

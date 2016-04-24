@@ -32,4 +32,8 @@ public class BacteriaCellUI : MonoBehaviour
         transform.localScale = Vector3.one * scale;
 
     }
+
+    void OnMouseEnter()
+    {
+    }
 }
