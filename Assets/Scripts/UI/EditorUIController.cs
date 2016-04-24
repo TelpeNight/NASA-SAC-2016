@@ -56,6 +56,6 @@ public class EditorUIController : MonoBehaviour
 
     public void Revert()
     {
-        _bacteria.reset();
+        _bacteria.reset(true);
     }
 }

@@ -15,12 +15,12 @@ public class UIBacteriaParams : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        reset();  
+        reset(false);  
     }
 
-    public void reset()
+    public void reset(bool revert)
     {
-        if (controller.ParamsController.colonyParams == null)
+        if (controller.ParamsController.colonyParams == null || revert)
         {
             radiationResist = 999f;
             temperatureResist = -20f;
