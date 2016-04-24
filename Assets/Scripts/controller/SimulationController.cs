@@ -43,7 +43,7 @@ namespace controller
 
         public void start(int ticks)
         {
-            if (_simTread != null)
+            if (!ticksFinished())
             {
                 return;
             }
@@ -73,7 +73,7 @@ namespace controller
 
         public bool ticksFinished()
         {
-            if (_simTread.IsAlive)
+            if (_simTread != null && _simTread.IsAlive)
             {
                 return false;
             }

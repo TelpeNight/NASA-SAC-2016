@@ -41,7 +41,8 @@ public class SimulationUIController : MonoBehaviour
         _timeText = screenCanvas.transform.FindChild("Timer").GetComponent<UnityEngine.UI.Text>();
 
         StartInitialSimulation();
-        UpdateUI();
+        UpdatePeriodUI();
+        //UpdateUI();
     }
 
     void StartInitialSimulation()
@@ -49,7 +50,6 @@ public class SimulationUIController : MonoBehaviour
         _simulationController = new controller.SimulationController();
 
         int ticks = (30 * _simualtionStep) * 12 / controller.ParamsController.growthSpeed;
-        Debug.Log("Tick: " + ticks);
         _simulationController.start(ticks);
 
         StartTimer();
@@ -57,28 +57,24 @@ public class SimulationUIController : MonoBehaviour
 
     void StartTimer()
     {
-        Debug.Log("Start timer");
         _timer = gameObject.AddComponent<Timer>();
-        _timer.Init(5);
+        _timer.Init(1);
         _timer.onTimeout += OnTimerFinished;
         _timer.Run();
     }
 
     void OnTimerFinished()
     {
-        Debug.Log("Timer finished");
         _timer.onTimeout -= OnTimerFinished;
         Destroy(_timer);
         _timer = null;
 
         if (_simulationController.ticksFinished())
         {
-            Debug.Log("Finish simulation tick");
             FinishSimulationTick();
         }
         else
         {
-            Debug.Log("Start waiting");
             _waitForSimulation = true;
         }
     }
@@ -100,7 +96,6 @@ public class SimulationUIController : MonoBehaviour
         {
             if (_simulationController.ticksFinished())
             {
-                Debug.Log("Finish simulation tick");
                 _waitForSimulation = false;
                 FinishSimulationTick();
             }
@@ -129,7 +124,7 @@ public class SimulationUIController : MonoBehaviour
         long years = _simualationPeriod / 12;
         if (years != 0)
         {
-            long month = _simualationPeriod % years;
+            long month = _simualationPeriod % (years*12);
             if (month >= 10)
             {
                 _timeText.text = "Year: " + years + " month " + month;
@@ -151,6 +146,22 @@ public class SimulationUIController : MonoBehaviour
         for (int i=0; i<colonies.Count; ++i)
         {
             colonies[i].UpdateColonyUI();
+
+            double max = 40001877097;
+            double mass = _simulationController.getColony().getMass();
+            double massPercent = mass / max;
+            double radius = 0.3 + 14.7 * massPercent;
+            if (!_simulationController.getColony().isDead())
+            {
+                colonies[i].SetSize((float)radius);
+            }
+            else
+            {
+                colonies[i].SetSize(0.3f);
+                colonies[i].SetDead();
+            }
+            
+
         }
     }
 
@@ -169,7 +180,7 @@ public class SimulationUIController : MonoBehaviour
 
     private double getTemperature()
     {
-        return 1;
+        return _simulationController.getConditions().getTemperature();
     }
 
     private double GetPressure()

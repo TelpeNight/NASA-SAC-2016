@@ -33,9 +33,9 @@ public class ColonyUI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float size = sprite.transform.localScale.x;
-        size += 0.1f * Time.deltaTime;
-        SetSize(size);
+        //float size = sprite.transform.localScale.x;
+        //size += 0.1f * Time.deltaTime;
+        //SetSize(size);
     }
 
     public void UpdateColonyUI()
@@ -48,6 +48,11 @@ public class ColonyUI : MonoBehaviour
         _photosynthesisPowerText.text = "Photosynthesis power: " + GetPhotoPower();
         _nitrogenPowerText.text = "Nytrogen power: " + GetNitrogenPower();
 
+    }
+
+    public void SetDead()
+    {
+        GetComponent<SpriteRenderer>().color = Color.red;
     }
 
     private double GetTotalMass()
