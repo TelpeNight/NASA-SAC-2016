@@ -94,7 +94,7 @@ namespace model
             ColonyStats newStats = _stats;
             if (_stats.mass > linearMass)
             {
-                newStats.mass += Math.Min(Math.Min(_freeWater, _stats.mass), max / 144000.0);
+                newStats.mass += Math.Min(Math.Min(_freeWater, _stats.mass), max / 144000);
             }
             else
             {
