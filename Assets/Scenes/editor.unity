@@ -4471,7 +4471,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 350, y: 215}
-  m_SizeDelta: {x: 300, y: 200}
+  m_SizeDelta: {x: 300, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1670845902
 MonoBehaviour:
@@ -4505,12 +4505,14 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\nCyanobacteria are phototrophic bacteria carrying out oxygen\u2010producing
-    photosynthesis. Indeed, cyanobacteria were the inventors of oxygenic photosynthesis
-    carried out by eukaryotic algae and plants. Besides showing the capability of
-    building their cellular carbon from carbon dioxide, available in the atmosphere,
-    several strains of cyanobacteria have also acquired the ability to fix molecular
-    dinitrogen (N2)."
+  m_Text: "Anabaena\nAnabaena is a genus of filamentous cyanobacteria that exists
+    as plankton. It is known for its nitrogen fixing abilities, and they form symbiotic
+    relationships with certain plants, such as the mosquito fern.\nCyanobacteria are
+    phototrophic bacteria carrying out oxygen\u2010producing photosynthesis. Indeed,
+    cyanobacteria were the inventors of oxygenic photosynthesis carried out by eukaryotic
+    algae and plants. Besides showing the capability of building their cellular carbon
+    from carbon dioxide, available in the atmosphere, several strains of cyanobacteria
+    have also acquired the ability to fix molecular dinitrogen (N2)."
 --- !u!222 &1670845903
 CanvasRenderer:
   m_ObjectHideFlags: 0
