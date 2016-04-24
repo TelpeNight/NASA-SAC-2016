@@ -15,18 +15,17 @@ public class UIBacteriaParams : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        reset();
-        
+        reset();  
     }
 
     public void reset()
     {
-        radiationResist = 0.5f;
-        temperatureResist = 0.5f;
-        maxSize = 0.5f;
-        photosynthesisPower = 0.5f;
-        nitrogenPower = 0.5f;
-        divisionSpeed = 0.5f;
+        radiationResist = 450f;
+        temperatureResist = 0f;
+        maxSize = 5f;
+        photosynthesisPower = 3f;
+        nitrogenPower = 1f;
+        divisionSpeed = 12f;
         waterUsage = 0.5f;
         InvokeValueChanged();
     }

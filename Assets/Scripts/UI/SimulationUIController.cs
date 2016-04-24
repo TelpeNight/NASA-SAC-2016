@@ -58,7 +58,6 @@ public class SimulationUIController : MonoBehaviour
 
     public void OnSimulationStepUpdate(float step)
     {
-        Debug.Log((int)step);
         _simualtionStep = (int)step;
     }
 
