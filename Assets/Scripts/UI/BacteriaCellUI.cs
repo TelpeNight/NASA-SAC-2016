@@ -35,5 +35,11 @@ public class BacteriaCellUI : MonoBehaviour
 
     void OnMouseEnter()
     {
+        GameObject.Find("Description").GetComponent<UnityEngine.UI.Text>().enabled = true;
+    }
+
+    void OnMouseExit()
+    {
+        GameObject.Find("Description").GetComponent<UnityEngine.UI.Text>().enabled = false;
     }
 }
