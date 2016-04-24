@@ -3,6 +3,7 @@ using System.Threading;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using model;
 
 namespace controller
 {
@@ -40,7 +41,7 @@ namespace controller
             _conditions = contitions;
         }
 
-        public void start(int tick)
+        public void start(int ticks)
         {
             if (_simTread != null)
             {
@@ -48,7 +49,24 @@ namespace controller
             }
 
             _simTread = new Thread(() => {
+                model.PlanetCondition conditions = _conditions;
+                model.Colony colony = _currentColony;
 
+                for (int i = 0; i < ticks; ++ticks)
+                {
+                    SimTick tick = new SimTick();
+                    SimStep.StepRes res = tick.execute(conditions, colony);
+                    if (res.colony.isDead())
+                    {
+                        break;
+                    }
+                    conditions = res.conditions;
+                    colony = res.colony;
+                }
+
+                _conditions = conditions;
+                _currentColony = colony;
+                //TODO mutate
             });
             _simTread.Start();
         }
@@ -61,6 +79,24 @@ namespace controller
             }
             _simTread = null;
             return true;
+        }
+
+        public PlanetCondition getConditions()
+        {
+            if (!ticksFinished())
+            {
+                return null;
+            }
+            return _conditions;
+        }
+
+        public Colony getColony()
+        {
+            if (!ticksFinished())
+            {
+                return null;
+            }
+            return _currentColony;
         }
     }
 }
