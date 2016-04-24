@@ -52,19 +52,14 @@ namespace controller
                 model.PlanetCondition conditions = _conditions;
                 model.Colony colony = _currentColony;
 
-                if (colony.isDead())
-                {
-                    return;
-                }
-
                 for (int i = 0; i < ticks; ++i)
                 {
-                    SimTick tick = new SimTick();
-                    SimStep.StepRes res = tick.execute(conditions, colony);
-                    if (res.colony.isDead())
+                    if (colony.isDead())
                     {
                         break;
                     }
+                    SimTick tick = new SimTick();
+                    SimStep.StepRes res = tick.execute(conditions, colony);
                     conditions = res.conditions;
                     colony = res.colony;
                 }
