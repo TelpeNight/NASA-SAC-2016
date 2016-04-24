@@ -25,7 +25,6 @@ public class ColonyUI : MonoBehaviour
         _radiationResistanceText = canvas.transform.FindChild("Radiation").GetComponent<Text>();
         _temperatureResistanceText = canvas.transform.FindChild("Temperature").GetComponent<Text>();
         _maxSizeText = canvas.transform.FindChild("MaxSize").GetComponent<Text>();
-        _divisionPeriodText = canvas.transform.FindChild("DivisionPeriod").GetComponent<Text>();
         _photosynthesisPowerText = canvas.transform.FindChild("PhotosynthesisPower").GetComponent<Text>();
         _nitrogenPowerText = canvas.transform.FindChild("NitrogenPower").GetComponent<Text>();
     }
@@ -33,21 +32,16 @@ public class ColonyUI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //float size = sprite.transform.localScale.x;
-        //size += 0.1f * Time.deltaTime;
-        //SetSize(size);
     }
 
-    public void UpdateColonyUI()
+    public void UpdateColonyUI(model.Colony colonyInfo)
     {
-        _totalMassText.text = "Total mass: " + GetTotalMass();
-        _radiationResistanceText.text = "Radiation resistance: " + GetRadiationResistance();
-        _temperatureResistanceText.text = "Temperature resistance: " + GetTemperatureResistance();
-        _maxSizeText.text = "Max size: " + GetMaxSize();
-        _divisionPeriodText.text = "Division period: " + GetDivisionPeriod() + "h";
-        _photosynthesisPowerText.text = "Photosynthesis power: " + GetPhotoPower();
-        _nitrogenPowerText.text = "Nytrogen power: " + GetNitrogenPower();
-
+        _totalMassText.text = "Total mass: " + GetTotalMass(colonyInfo);
+        _radiationResistanceText.text = "Radiation resistance: " + GetRadiationResistance(colonyInfo);
+        _temperatureResistanceText.text = "Optimal temperature: " + GetTemperatureResistance(colonyInfo);
+        _maxSizeText.text = "Size: " + GetMaxSize(colonyInfo);
+        _photosynthesisPowerText.text = "Photosynthesis power: " + GetPhotoPower(colonyInfo);
+        _nitrogenPowerText.text = "Nytrogen power: " + GetNitrogenPower(colonyInfo);
     }
 
     public void SetDead()
@@ -55,39 +49,34 @@ public class ColonyUI : MonoBehaviour
         GetComponent<SpriteRenderer>().color = Color.red;
     }
 
-    private double GetTotalMass()
+    private double GetTotalMass(model.Colony colonyInfo)
     {
-        return 50;
+        return colonyInfo.getMass();
     }
 
-    private double GetRadiationResistance()
+    private double GetRadiationResistance(model.Colony colonyInfo)
     {
-        return 1;
+        return System.Math.Round(colonyInfo.getRadiationResistent(), 5);
     }
 
-    private double GetTemperatureResistance()
+    private double GetTemperatureResistance(model.Colony colonyInfo)
     {
-        return 2;
+        return colonyInfo.getOptimalTemperature();
     }
 
-    private double GetMaxSize()
+    private double GetMaxSize(model.Colony colonyInfo)
     {
-        return 3;
+        return colonyInfo.getCellSize();
     }
 
-    private double GetPhotoPower()
+    private double GetPhotoPower(model.Colony colonyInfo)
     {
-        return 4;
+        return System.Math.Round(colonyInfo.getPhotosynthesisPower(), 5);
     }
 
-    private double GetNitrogenPower()
+    private double GetNitrogenPower(model.Colony colonyInfo)
     {
-        return 5;
-    }
-
-    private double GetDivisionPeriod()
-    {
-        return 6;
+        return System.Math.Round(colonyInfo.getNFixPower(), 5);
     }
 
     public void SetSize(float size)

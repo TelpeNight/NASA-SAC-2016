@@ -154,7 +154,7 @@ public class SimulationUIController : MonoBehaviour
     {
         for (int i=0; i<colonies.Count; ++i)
         {
-            colonies[i].UpdateColonyUI();
+            colonies[i].UpdateColonyUI(_simulationController.getColony());
 
             double max = 40001877097;
             double mass = _simulationController.getColony().getMass();
