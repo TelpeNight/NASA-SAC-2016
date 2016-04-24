@@ -25,6 +25,9 @@ public class SimulationUIController : MonoBehaviour
     private Timer _timer = null;
     private bool _waitForSimulation = false;
 
+    private const int LARGE_UPDATE_PERIOD = 5;
+    private int _currentTick = 0;
+
 
     // Use this for initialization
     void Start()
@@ -49,8 +52,9 @@ public class SimulationUIController : MonoBehaviour
     {
         _simulationController = new controller.SimulationController();
 
-        int ticks = (30 * _simualtionStep) * 12 / controller.ParamsController.growthSpeed;
+        int ticks = (30 * _simualtionStep) * 12 / controller.ParamsController.growthSpeed / LARGE_UPDATE_PERIOD;
         _simulationController.start(ticks);
+        _currentTick++;
 
         StartTimer();
     }
@@ -58,7 +62,7 @@ public class SimulationUIController : MonoBehaviour
     void StartTimer()
     {
         _timer = gameObject.AddComponent<Timer>();
-        _timer.Init(1);
+        _timer.Init(0.2f);
         _timer.onTimeout += OnTimerFinished;
         _timer.Run();
     }
@@ -81,11 +85,16 @@ public class SimulationUIController : MonoBehaviour
 
     void FinishSimulationTick()
     {
-        IncreaseSimulationPeriod();
-        UpdateUI();
+        if (_currentTick == LARGE_UPDATE_PERIOD)
+        {
+            IncreaseSimulationPeriod();
+            UpdateUI();
+            _currentTick = 0;
+        }
 
-        int ticks = (30 * _simualtionStep) * 12 / controller.ParamsController.growthSpeed;
+        int ticks = (30 * _simualtionStep) * 12 / controller.ParamsController.growthSpeed / LARGE_UPDATE_PERIOD;
         _simulationController.start(ticks);
+        _currentTick++;
         StartTimer();
     }
 
@@ -145,7 +154,7 @@ public class SimulationUIController : MonoBehaviour
     {
         for (int i=0; i<colonies.Count; ++i)
         {
-            colonies[i].UpdateColonyUI();
+            colonies[i].UpdateColonyUI(_simulationController.getColony());
 
             double max = 40001877097;
             double mass = _simulationController.getColony().getMass();
@@ -178,8 +187,8 @@ public class SimulationUIController : MonoBehaviour
         _CO2Text.text = "CO2: " + GetCO2() + "%";
         _O2Text.text = "O2: " + GetO2() + "%";
         _N2atmosphereText.text = "N2 (atmosphere): " + GetN() + "%";
-        _N2groundText.text = "N (ground)" + GetNground();
-        _organicText.text = "Organic " + GetOrganic();
+        _N2groundText.text = "N (ground): " + GetNground();
+        _organicText.text = "Organic: " + GetOrganic();
     }
 
     private double getTemperature()
@@ -189,7 +198,7 @@ public class SimulationUIController : MonoBehaviour
 
     private double GetPressure()
     {
-        return 2;
+        return 0.8;
     }
 
     private double GetRadiation()
@@ -204,26 +213,26 @@ public class SimulationUIController : MonoBehaviour
 
     private double GetCO2()
     {
-        return 5;
+        return System.Math.Round(_simulationController.getConditions().getCO() * 100, 3);
     }
 
     private double GetO2()
     {
-        return 6;
+        return System.Math.Round(_simulationController.getConditions().getO2() * 100, 3);
     }
 
     private double GetN()
     {
-        return 7;
+        return System.Math.Round(_simulationController.getConditions().getN() * 100, 3);
     }
 
     private double GetNground()
     {
-        return 8;
+        return _simulationController.getConditions().getGroundN();
     }
 
     private double GetOrganic()
     {
-        return 9;
+        return _simulationController.getConditions().GetOrganic();
     }
 }

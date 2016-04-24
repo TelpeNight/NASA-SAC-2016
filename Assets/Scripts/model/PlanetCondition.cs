@@ -57,6 +57,37 @@ namespace model
             return new PlanetCondition(newState, _time);
         }
 
+        public double getAtmosphereMass()
+        {
+            return _state.co + _state.oxigen + _state.n;
+        }
+
+
+        public double getCO()
+        {
+            return _state.co / getAtmosphereMass();
+        }
+
+        public double getO2()
+        {
+            return _state.oxigen / getAtmosphereMass();
+        }
+
+        public double getN()
+        {
+            return _state.n / getAtmosphereMass();
+        }
+
+        public double getGroundN()
+        {
+            return _state.surfaceN;
+        }
+
+        public double GetOrganic()
+        {
+            return _state.organic;
+        }
+
         public PlanetCondition decWater(double availableWater)
         {
             PlanetConditionState newState = _state;
