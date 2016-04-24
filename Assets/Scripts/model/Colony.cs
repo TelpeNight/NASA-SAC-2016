@@ -87,10 +87,19 @@ namespace model
             return _production;
         }
 
+        private const long linearMass = 729859829;
+        private const long max = 40001877097;
         public Colony massGrow()
         {
             ColonyStats newStats = _stats;
-            newStats.mass += Math.Min(_freeWater, newStats.mass);
+            if (_stats.mass > linearMass)
+            {
+                newStats.mass += Math.Min(Math.Min(_freeWater, _stats.mass), max / 144000.0);
+            }
+            else
+            {
+                newStats.mass += Math.Min(_freeWater, _stats.mass);
+            }
             return new Colony(newStats, _params, null, 0);
         }
 

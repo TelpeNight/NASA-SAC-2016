@@ -149,9 +149,13 @@ public class SimulationUIController : MonoBehaviour
 
             double max = 40001877097;
             double mass = _simulationController.getColony().getMass();
-            double massPercent = mass / max;
+            double massPercent = System.Math.Sqrt(mass) / System.Math.Sqrt(max);
             double radius = 0.3 + 14.7 * massPercent;
-            if (!_simulationController.getColony().isDead())
+            if (mass > 30001877097)
+            {
+                colonies[i].SetSize((float)radius);
+            }
+            else if (!_simulationController.getColony().isDead())
             {
                 colonies[i].SetSize((float)radius);
             }

@@ -115,7 +115,7 @@ namespace model
             return (float)(colony.getMass() / colony.getNum() / colony.getCellSize());
         }
 
-        private static float AVG_RATE = 0.50005f / 0.97f;
+        private static float AVG_RATE = 0.515f;
         public override float getUptakeDeathRate(Colony colony, double co, double water, double n, int time)
         {
             float rate = AVG_RATE;

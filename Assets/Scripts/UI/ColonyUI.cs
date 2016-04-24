@@ -52,7 +52,7 @@ public class ColonyUI : MonoBehaviour
 
     public void SetDead()
     {
-        GetComponent<SpriteRenderer>().color = Color.red;
+        sprite.GetComponent<SpriteRenderer>().color = Color.red;
     }
 
     private double GetTotalMass()

@@ -103,5 +103,12 @@ namespace model
             return _state.temperature;
         }
 
+        public model.PlanetCondition withTempearture(int temperature)
+        {
+            var newState = _state;
+            newState.temperature = temperature;
+            return new PlanetCondition(newState, _time);
+        }
+
     }
 }

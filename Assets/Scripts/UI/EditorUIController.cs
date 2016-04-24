@@ -44,7 +44,7 @@ public class EditorUIController : MonoBehaviour
     public void StartSimulation()
     {
         model.ColonyParams modelParams = new model.ColonyParams();
-        modelParams.radiationResistent = 0.98f + _bacteria.radiationResist / 1000;
+        modelParams.radiationResistent = 0.98f + _bacteria.radiationResist / 100000;
         modelParams.optimalTemperature = (int)_bacteria.temperatureResist;
         modelParams.photosynthesisPower = _bacteria.photosynthesisPower / 100;
         modelParams.nFixPower = _bacteria.nitrogenPower / 100;

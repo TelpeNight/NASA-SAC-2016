@@ -12,6 +12,8 @@ namespace controller
         private model.Colony _currentColony;
         private model.PlanetCondition _conditions;
         private Thread _simTread;
+        private int totalTicks = 0;
+        private int defaultTemp;
 
         public SimulationController()
         {
@@ -39,6 +41,7 @@ namespace controller
 
             _currentColony = colony;
             _conditions = contitions;
+            defaultTemp = _conditions.getTemperature();
         }
 
         public void start(int ticks)
@@ -47,6 +50,11 @@ namespace controller
             {
                 return;
             }
+
+//             if (totalTicks % 8 == 0)
+//             {
+//                 _conditions = _conditions.withTempearture(-60);
+//             }
 
             _simTread = new Thread(() => {
                 model.PlanetCondition conditions = _conditions;
@@ -62,9 +70,10 @@ namespace controller
                     SimStep.StepRes res = tick.execute(conditions, colony);
                     conditions = res.conditions;
                     colony = res.colony;
+                    ++totalTicks;
                 }
 
-                _conditions = conditions;
+                _conditions = conditions.withTempearture(defaultTemp);
                 _currentColony = colony;
                 //TODO mutate
             });

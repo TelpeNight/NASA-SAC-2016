@@ -20,12 +20,12 @@ public class UIBacteriaParams : MonoBehaviour {
 
     public void reset()
     {
-        radiationResist = 450f;
-        temperatureResist = 0f;
-        maxSize = 5f;
-        photosynthesisPower = 3f;
-        nitrogenPower = 1f;
-        divisionSpeed = 12f;
+        radiationResist = 999f;
+        temperatureResist = -20f;
+        maxSize = 1f;
+        photosynthesisPower = 1f;
+        nitrogenPower = 0.25f;
+        divisionSpeed = 6f;
         waterUsage = 0.5f;
         InvokeValueChanged();
     }
