@@ -27,17 +27,18 @@ public class EditorUIController : MonoBehaviour
 
     void UpdateUI()
     {
-        UpdateSliderValue(radiationSlider, _bacteria.radiationResist);
-        UpdateSliderValue(temperatureSlider, _bacteria.temperatureResist);
-        UpdateSliderValue(maxSizeSlider, _bacteria.maxSize);
-        UpdateSliderValue(photoSlider, _bacteria.photosynthesisPower);
-        UpdateSliderValue(nitrogenSlider, _bacteria.nitrogenPower);
-        UpdateSliderValue(divisionSpeedSlider, _bacteria.divisionSpeed);
+        UpdateSliderValue(radiationSlider, _bacteria.radiationResist, "Radiation resistance: ");
+        UpdateSliderValue(temperatureSlider, _bacteria.temperatureResist, "Optimal temperature: ");
+        UpdateSliderValue(maxSizeSlider, _bacteria.maxSize, "Size: ");
+        UpdateSliderValue(photoSlider, _bacteria.photosynthesisPower, "Photosynthesis efficiency: ");
+        UpdateSliderValue(nitrogenSlider, _bacteria.nitrogenPower, "Nitrogen fixation efficiency: ");
+        UpdateSliderValue(divisionSpeedSlider, _bacteria.divisionSpeed, "Divide speed: ");
     }
 
-    void UpdateSliderValue(SliderGroup slider, float value)
+    void UpdateSliderValue(SliderGroup slider, float value, string titleText)
     {
         slider.SetValue(value);
+        slider.SetTitle(titleText + value);
     }
 
     public void StartSimulation()
