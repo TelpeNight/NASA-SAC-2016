@@ -18,8 +18,12 @@ public class SimulationUIController : MonoBehaviour
 
     [SerializeField]
     private long _simualationPeriod = 0;
-    private long _simualtionStep = 1;
+    private int _simualtionStep = 1;
     private UnityEngine.UI.Text _timeText;
+
+    private controller.SimulationController _simulationController = null;
+    private Timer _timer = null;
+    private bool _waitForSimulation = false;
 
 
     // Use this for initialization
@@ -35,13 +39,72 @@ public class SimulationUIController : MonoBehaviour
         _N2groundText = screenCanvas.transform.FindChild("Nground").GetComponent<UnityEngine.UI.Text>();
         _organicText = screenCanvas.transform.FindChild("Organic").GetComponent<UnityEngine.UI.Text>();
         _timeText = screenCanvas.transform.FindChild("Timer").GetComponent<UnityEngine.UI.Text>();
+
+        StartInitialSimulation();
         UpdateUI();
+    }
+
+    void StartInitialSimulation()
+    {
+        _simulationController = new controller.SimulationController();
+
+        int ticks = (30 * _simualtionStep) * 12 / controller.ParamsController.growthSpeed;
+        Debug.Log("Tick: " + ticks);
+        _simulationController.start(ticks);
+
+        StartTimer();
+    }
+
+    void StartTimer()
+    {
+        Debug.Log("Start timer");
+        _timer = gameObject.AddComponent<Timer>();
+        _timer.Init(5);
+        _timer.onTimeout += OnTimerFinished;
+        _timer.Run();
+    }
+
+    void OnTimerFinished()
+    {
+        Debug.Log("Timer finished");
+        _timer.onTimeout -= OnTimerFinished;
+        Destroy(_timer);
+        _timer = null;
+
+        if (_simulationController.ticksFinished())
+        {
+            Debug.Log("Finish simulation tick");
+            FinishSimulationTick();
+        }
+        else
+        {
+            Debug.Log("Start waiting");
+            _waitForSimulation = true;
+        }
+    }
+
+    void FinishSimulationTick()
+    {
+        IncreaseSimulationPeriod();
+        UpdateUI();
+
+        int ticks = (30 * _simualtionStep) * 12 / controller.ParamsController.growthSpeed;
+        _simulationController.start(ticks);
+        StartTimer();
     }
 
     // Update is called once per frame
     void Update()
     {
-        IncreaseSimulationPeriod();
+        if (_waitForSimulation)
+        {
+            if (_simulationController.ticksFinished())
+            {
+                Debug.Log("Finish simulation tick");
+                _waitForSimulation = false;
+                FinishSimulationTick();
+            }
+        }
     }
 
     void UpdateUI()
