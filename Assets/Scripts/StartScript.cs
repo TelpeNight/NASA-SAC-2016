@@ -37,7 +37,7 @@ public class StartScript : MonoBehaviour {
         ColonyParams par = new ColonyParams
         {
             radiationResistent = 0.99f,
-            optimalTemperature = -10,
+            optimalTemperature = -20,
             photosynthesisPower = 0.01f,
             nFixPower = 0.0025f,
             cellSize = 1

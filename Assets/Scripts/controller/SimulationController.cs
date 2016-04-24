@@ -52,6 +52,11 @@ namespace controller
                 model.PlanetCondition conditions = _conditions;
                 model.Colony colony = _currentColony;
 
+                if (colony.isDead())
+                {
+                    return;
+                }
+
                 for (int i = 0; i < ticks; ++ticks)
                 {
                     SimTick tick = new SimTick();
