@@ -25,7 +25,7 @@ public class StartScript : MonoBehaviour {
             co = 23830000000000000,
             n = 675000000000000,
             oxigen = 32500000000000,
-            temperature = -32
+            temperature = -40
         };
 
         ColonyStats stats = new ColonyStats
@@ -37,14 +37,17 @@ public class StartScript : MonoBehaviour {
         ColonyParams par = new ColonyParams
         {
             radiationResistent = 0.99f,
-            optimalTemperature = -20,
+            optimalTemperature = -10,
             photosynthesisPower = 0.01f,
-            nFixPower = 0.001f,
+            nFixPower = 0.0025f,
             cellSize = 1
         };
 
         PlanetCondition contitions = new PlanetCondition(state, 6);
         Colony colony = new Colony(stats, par);
+
+        PlanetCondition _contitions;
+        Colony _colony;
 
         long iter = 0;
         while (true)
@@ -57,16 +60,22 @@ public class StartScript : MonoBehaviour {
                 SimStep.StepRes res2 = tick.execute(contitions, colony);
                 break;
             }
+            if (res.colony.isDead())
+            {
+                SimStep.StepRes res3 = tick.execute(contitions, colony);
+                break;
+            }
             contitions = res.conditions;
             colony = res.colony;
-            if (colony.isDead())
+            ++iter;
+            if (iter > 146000)
             {
                 break;
             }
-            ++iter;
-            if (iter > 100000)
+            if (iter == 1000)
             {
-                break;
+                _contitions = contitions;
+                _colony = colony;
             }
         }
     }

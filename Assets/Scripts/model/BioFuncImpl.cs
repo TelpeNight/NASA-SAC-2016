@@ -9,41 +9,85 @@ namespace model
     {
         public const int MinPeriod = 6;
 
+        private float timeTick(int time)
+        {
+            return (time) / MinPeriod;
+        }
+
         public override float getRadiationDeathRate(PlanetCondition conditions, Colony colony)
         {
-            return (float)Math.Pow(colony.getRadiationResistent(), conditions.getTime() / 6.0);
+            double a = colony.getRadiationResistent();
+            double b = timeTick(conditions.getTime());
+            float res = (float)Math.Pow(a, b);
+            if (res < 0.001)
+            {
+                float res2 = (float)Math.Pow(a, b);
+                res = res2;
+            }
+            return res;
         }
 
         public override float getTemperatureDeathRate(PlanetCondition conditions, Colony colony)
         {
-            if (colony.getOptimalTemperature() <= conditions.getTemperature())
-            {
-                return (float)Math.Pow(0.99, conditions.getTime() / 6.0);
-            }
-            else
+            double a = 0.999;
+            double b = timeTick(conditions.getTime());
+            if (colony.getOptimalTemperature() > conditions.getTemperature())
             {
                 int delta = colony.getOptimalTemperature() - conditions.getTemperature();
-                float deathRate = Math.Max(1 - delta * 2 / 100f, 0);
-                return (float)Math.Pow(deathRate, conditions.getTime() / 6.0);
+                a = Math.Max(1 - delta * 0.1f / 100f, 0);
             }
+            float res = (float)Math.Pow(a, b);
+            if (res < 0.001)
+            {
+                float res2 = (float)Math.Pow(a, b);
+                res = res2;
+            }
+            return res;
         }
 
         public override float getAvarageDeathRate(float radiation, float temperature)
         {
-            return Math.Min(radiation, temperature);
+            float sum = radiation * temperature;
+            float delta = Math.Min(radiation, temperature) - sum;
+            return sum + delta/2;
         }
 
-        public override double getPlanetWater(Colony colony, double requiredWater)
+        private static float getPlanetCoe(double mass)
         {
-            //TODO large colonies can't find water
-            if (colony.getMass() > 5000)
+            double rate = 27200000000 / mass;
+            if (rate > 1)
             {
-                return requiredWater * 0.5;
+                return 1;
             }
             else
             {
-                return requiredWater;
+                return (float)rate;
             }
+        }
+
+        public override double getPlanetWater(PlanetCondition conditions, Colony colony, double requiredWater)
+        {
+            return requiredWater * getPlanetCoe(colony.getMass());
+        }
+
+        public override double getPlanetCO(PlanetCondition contitions, Colony colony, double requiredCO)
+        {
+            float coe = 0.3f + getPlanetCoe(colony.getMass());
+            if (coe > 1)
+            {
+                coe = 1;
+            }
+            return requiredCO * coe;
+        }
+
+        public override double getPlanetN(PlanetCondition contitions, Colony colony, double requiredN)
+        {
+            float coe = 0.3f + getPlanetCoe(colony.getMass());
+            if (coe > 1)
+            {
+                coe = 1;
+            }
+            return requiredN * coe;
         }
 
         public override double getRequiredCO(Colony colony, int time)
@@ -59,7 +103,6 @@ namespace model
 
         public override double getRequiredN(Colony colony, int time)
         {
-            //TODO
             return colony.getNFixPower() * colony.getMass() * time;
         }
 
@@ -72,23 +115,19 @@ namespace model
             return (float)(colony.getMass() / colony.getNum() / colony.getCellSize());
         }
 
+        private static float AVG_RATE = 0.50005f / 0.97f;
         public override float getUptakeDeathRate(Colony colony, double co, double water, double n, int time)
         {
-            //TODO
-            float deathRate = 1;
-            if (water < getMetabolicWater(colony, time))
-            {
-                deathRate = 0.9f;
-            }
+            float rate = AVG_RATE;
             if (co < getRequiredCO(colony, time))
             {
-                deathRate = 0.7f;
+                rate *= (float)(co / getRequiredCO(colony, time));
             }
             if (n < getRequiredN(colony, time))
             {
-                deathRate = 0.7f;
+                rate *= (float)(n / getRequiredN(colony, time));
             }
-            return deathRate;
+            return rate;
         }
 
         public override double getMetabolicWater(Colony colony, int time)

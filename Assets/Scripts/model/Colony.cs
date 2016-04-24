@@ -30,6 +30,10 @@ namespace model
         {
             ColonyStats newStats = _stats;
             newStats.mass *= avarageDeathRate;
+            if (newStats.mass < 0.1)
+            {
+                newStats.mass = 0.001;
+            }
             newStats.num *= avarageDeathRate;
             return new Colony(newStats, _params, null, 0);
         }
@@ -64,16 +68,18 @@ namespace model
             var production = new ColonyProduction
             {
                 oxygen = co * 32.0 / 44.0,
-                surfaceN = n
+                surfaceN = n * 17.0 / 28.0
             };
             float uptakeDeathRate = BioFunc.funcs.getUptakeDeathRate(this, co, water, n, time);
-            double freeWater = getFreeWater(uptakeDeathRate);
-            float uptakeDeathRate2 = BioFunc.funcs.getUptakeDeathRate(this, co, water + freeWater, n, time);
             ColonyStats newState = _stats;
-            newState.mass *= uptakeDeathRate2;
-            newState.num *= uptakeDeathRate2;
+            newState.mass *= uptakeDeathRate;
+            if (newState.mass < 0.1)
+            {
+                newState.mass = 0.001;
+            }
+            newState.num *= uptakeDeathRate;
             return new Colony(newState, _params, production,
-                water + getFreeWater(uptakeDeathRate2) - BioFunc.funcs.getMetabolicWater(this, time));
+                water - BioFunc.funcs.getMetabolicWater(this, time));
         }
 
         public ColonyProduction getProduction()

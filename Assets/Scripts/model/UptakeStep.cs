@@ -13,10 +13,10 @@ namespace model
             double requiredWater = colony.getRequiredWater(conditions.getTime());
             double requiredN = colony.getRequiedN(conditions.getTime());
 
-            double availableCO = conditions.getAvailableCO(requiredCO);
             double availableFreeWater = conditions.getAvailableFreeWater(requiredWater);
-            double availablePlanetWater = conditions.getAvailablePlanetWater(colony, requiredWater);
-            double availableN = conditions.getAvailableN(requiredN);
+            double availableCO = BioFunc.funcs.getPlanetCO(conditions, colony, requiredCO);
+            double availablePlanetWater = BioFunc.funcs.getPlanetWater(conditions, colony, requiredWater);
+            double availableN = BioFunc.funcs.getPlanetN(conditions, colony, requiredN);
 
             double water = availableFreeWater;
             if (water < requiredWater)

@@ -22,10 +22,10 @@ namespace model
             return (radiation + temperature) / 2;
         }
 
-        public override double getPlanetWater(Colony colony, double requiredWater)
-        {
-            return requiredWater * 0.3;
-        }
+//         public override double getPlanetWater(Colony colony, double requiredWater)
+//         {
+//             return requiredWater * 0.3;
+//         }
 
         public override double getRequiredCO(Colony colony, int time)
         {
@@ -65,6 +65,20 @@ namespace model
             return 1;
         }
 
+        public override double getPlanetWater(PlanetCondition contitions, Colony colony, double requiredWater)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override double getPlanetCO(PlanetCondition contitions, Colony colony, double requiredCO)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override double getPlanetN(PlanetCondition contitions, Colony colony, double requiredN)
+        {
+            throw new NotImplementedException();
+        }
         /*public override float getSmallCellDeathRate(ColonyStats stats)
         {
             if (stats.num > stats.mass * 1.5)

@@ -15,7 +15,9 @@ namespace model
         public abstract float getTemperatureDeathRate(PlanetCondition contitions, Colony colony);
         public abstract float getAvarageDeathRate(float radiation, float temperature);
 
-        public abstract double getPlanetWater(Colony colony, double requiredWater);
+        public abstract double getPlanetWater(PlanetCondition contitions, Colony colony, double requiredWater);
+        public abstract double getPlanetCO(PlanetCondition contitions, Colony colony, double requiredCO);
+        public abstract double getPlanetN(PlanetCondition contitions, Colony colony, double requiredN);
 
         public abstract double getRequiredCO(Colony colony, int time);
         public abstract double getRequiredWater(Colony colony, int time);
