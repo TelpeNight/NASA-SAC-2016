@@ -57,7 +57,7 @@ namespace controller
                     return;
                 }
 
-                for (int i = 0; i < ticks; ++ticks)
+                for (int i = 0; i < ticks; ++i)
                 {
                     SimTick tick = new SimTick();
                     SimStep.StepRes res = tick.execute(conditions, colony);
