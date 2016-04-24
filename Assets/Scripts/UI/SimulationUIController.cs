@@ -35,7 +35,6 @@ public class SimulationUIController : MonoBehaviour
         _temperatureText = screenCanvas.transform.FindChild("Temperature").GetComponent<UnityEngine.UI.Text>();
         _pressureText = screenCanvas.transform.FindChild("Pressure").GetComponent<UnityEngine.UI.Text>();
         _radiationText = screenCanvas.transform.FindChild("Radiation").GetComponent<UnityEngine.UI.Text>();
-        _humidityText = screenCanvas.transform.FindChild("Humidity").GetComponent<UnityEngine.UI.Text>();
         _CO2Text = screenCanvas.transform.FindChild("CO2").GetComponent<UnityEngine.UI.Text>();
         _O2Text = screenCanvas.transform.FindChild("O2").GetComponent<UnityEngine.UI.Text>();
         _N2atmosphereText = screenCanvas.transform.FindChild("N").GetComponent<UnityEngine.UI.Text>();
@@ -88,10 +87,10 @@ public class SimulationUIController : MonoBehaviour
         if (_currentTick == LARGE_UPDATE_PERIOD)
         {
             IncreaseSimulationPeriod();
-            UpdateUI();
             _currentTick = 0;
         }
 
+        UpdateUI();
         int ticks = (30 * _simualtionStep) * 12 / controller.ParamsController.growthSpeed / LARGE_UPDATE_PERIOD;
         _simulationController.start(ticks);
         _currentTick++;
@@ -181,9 +180,8 @@ public class SimulationUIController : MonoBehaviour
     public void UpdatePlanetInfo()
     {
         _temperatureText.text = "Temperature: " + getTemperature() + "C";
-        _pressureText.text = "Pressure: " + GetPressure();
-        _radiationText.text = "Radiation: " + GetRadiation();
-        _humidityText.text = "Humidity: " + GetHumidity();
+        _pressureText.text = "Pressure: " + GetPressure()+"atm";
+        _radiationText.text = "Radiation: " + GetRadiation()+"mGy/day";
         _CO2Text.text = "CO2: " + GetCO2() + "%";
         _O2Text.text = "O2: " + GetO2() + "%";
         _N2atmosphereText.text = "N2 (atmosphere): " + GetN() + "%";
@@ -198,17 +196,12 @@ public class SimulationUIController : MonoBehaviour
 
     private double GetPressure()
     {
-        return 0.8;
+        return 0.006280;
     }
 
     private double GetRadiation()
     {
-        return 3;
-    }
-
-    private double GetHumidity()
-    {
-        return 4;
+        return 210;
     }
 
     private double GetCO2()
