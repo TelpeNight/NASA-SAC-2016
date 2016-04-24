@@ -56,6 +56,12 @@ public class SimulationUIController : MonoBehaviour
         UpdatePeriodUI();
     }
 
+    public void OnSimulationStepUpdate(float step)
+    {
+        Debug.Log((int)step);
+        _simualtionStep = (int)step;
+    }
+
     private void UpdatePeriodUI()
     {
         long years = _simualationPeriod / 12;
